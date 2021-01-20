@@ -45,6 +45,13 @@ class SleepTrackerViewModel(
         _navigateToSleepQuality.value = null
     }
 
+
+    private val _showSnackBarEvent = MutableLiveData<Boolean>()
+    val showSnackBarEvent : LiveData<Boolean> get() = _showSnackBarEvent
+    fun doneShowingSnackbar() {
+        _showSnackBarEvent.value = false
+    }
+
     private val nights = database.getAllNights()
     val nightsString = Transformations.map(nights) {
         nights -> formatNights(nights, application.resources)
@@ -108,6 +115,7 @@ class SleepTrackerViewModel(
         uiScope.launch {
             clear()
             tonight.value = null
+            _showSnackBarEvent.value = true
         }
     }
 
